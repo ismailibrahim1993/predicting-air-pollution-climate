@@ -82,11 +82,15 @@ The decline in measured concentration is very clearly displayed here. As we can 
 
 
 ### Modelling
-All the models were trained on test data with date ranges ranging as small as a  a day from the last date to a year away. Gradient Boost achieved the best score of 0.35. This is for a test size of 23 weeks.
+All the models were trained on test data with date ranges ranging as small as a  a day from the last date to a year away. Gradient Boost achieved the best score of 0.35. This is for a test size of 23 weeks and a Gradient Boosting model with default parameters.
 
 ![test scores](./images/test-scores.png)
+![best analysis](./images/actual_predic.png)
 
 
 ### Conclusion
+Score above zero means that there is insufficient evidence to reject the null hypothesis. This means that the climate has an effect on PM10 and PM2.5 concentrations  
 
 ### Limitations & Cause for improvement
+* Well I did not use gridsearch at all because even while producing the results above the computer took some hours to run, this is something I will do in the immediate future. 
+
