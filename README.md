@@ -27,7 +27,7 @@ If the score I obtain for the model is > 0 aka the baseline score, then dependin
 * Limitations & Cause for improvement.
 
 ### Data Acquisition
-![AURN webpage](predicting-air-pollution-climate/images/AURN-web.png)
+![AURN webpage](./images/AURN-web.png)
 The data was acquired by visiting uk-air.defra.gov.uk and in the data archive section. There I was able to select what concentration type that I wanted and also the data range that the concentration was going to be for. The measuring point was at London Kensington. Extracting the data was a quick and easy process (also free!). The main drawback to this though that the csv was limited to around 90000x152, this broadly corresponds to about 10 years of **hourly averaged** concentration data. Anyways, I chose to pick PM10, nitric oxide and PM2.5 concetrations 10 years from 12/05/2020.
 
 
@@ -61,12 +61,31 @@ I took days of the week out from the date column using .day_of_week() method and
 Merging process was a straight forward process. I first sorted the dataframes in ascending order by date-time then I set this as the index. Then I compared all dataframes interms of row count and found that one of them, the climate dataframe, had to be resized down. Both dataframes were then combined using concat inner join on date-time.
 
 ### Exploratory Analysis
-Heatmap was interesting to see. The wind variables have a negative correlation with concetration and most notably the temperatures have a positive correlation, around .34
 
-![correlations](predicting-air-pollution-climate/images/corr.png)
+![correlations](./images/corr.png)
+
+Heatmap was interesting to see. The wind variables have a negative correlation with concetration and most notably the mean sea level pressure has a positive correlation, around .21.
+
+<img src="./images/PM-daily-average.png" alt="drawing" width="1000"/>
+
+Both particulates behave in about the same way but PM10 has more recorded concentration on average for any given day. There is some noise, some trend toward the latter stages but no seasonality effect that can be observed from the daily averages.
+
+<img src="./images/pm10-yearly.png" alt="drawing" width="1000" height="200"/>
+
+<img src="./images/pm25-yearly.png" alt="drawing" width="1000" height="200"/>
+
+The decline in measured concentration is very clearly displayed here. As we can see There is a clear trend here.
+
+<img src="./images/wind-dirc.png" alt="drawing" width="1000" height="500"/>
+<img src="./images/msl-pres.png" alt="drawing" width="1000" height="500"/>
+
 
 
 ### Modelling
+All the models were trained on test data with date ranges ranging as small as a  a day from the last date to a year away. Gradient Boost achieved the best score of 0.35. This is for a test size of 23 weeks.
+
+![test scores](./images/test-scores.png)
+
 
 ### Conclusion
 
