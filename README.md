@@ -23,7 +23,7 @@ If the score I obtain for the model is > 0 aka the baseline score, then dependin
 * Cleaning
 * Feature Engineering+Merging
 * Exploratory Analysis
-* Model+Troubleshooting & Further feature engineering
+* Modelling
 * Limitations & Cause for improvement.
 
 ### Data Acquisition
@@ -74,23 +74,27 @@ Both particulates behave in about the same way but PM10 has more recorded concen
 
 <img src="./images/pm25-yearly.png" alt="drawing" width="1000" height="200"/>
 
-The decline in measured concentration is very clearly displayed here. As we can see There is a clear trend here.
+The decline in measured concentration is very clearly displayed here. As we can see there is a clear trend here.
 
 <img src="./images/wind-dirc.png" alt="drawing" width="1000" height="500"/>
 <img src="./images/msl-pres.png" alt="drawing" width="1000" height="500"/>
 
+Easterly winds contributed to higher recorded PM, westerly winds least.
 
 
 ### Modelling
-All the models were trained on test data with date ranges ranging as small as a  a day from the last date to a year away. Gradient Boost achieved the best score of 0.35. This is for a test size of 23 weeks and a Gradient Boosting model with default parameters.
+All the models were trained on test data with date ranges ranging as small as a day from the last date to a year away. Gradient Boost achieved the best score of 0.35. This is for a test size of 23 weeks and a Gradient Boosting model with default parameters.
 
 ![test scores](./images/test-scores.png)
 ![best analysis](./images/actual_predic.png)
 
 
 ### Conclusion
-Score above zero means that there is insufficient evidence to reject the null hypothesis. This means that the climate has an effect on PM10 and PM2.5 concentrations  
+Score above zero means that there is insufficient evidence to reject the null hypothesis. This means that the climate has an effect on PM10 and PM2.5 concentrations. Trend and random noise in the concentration data affects the machine learning models' ability to predict the concentrations accurately though and how large the test data can be must be respected. Some models did overfit quite significantly like the Ada Boost and test sizes larger than a year also did contribute to overfitted models.
 
-### Limitations & Cause for improvement
+### Limitations & Cause for Improvement
 * Well I did not use gridsearch at all because even while producing the results above the computer took some hours to run, this is something I will do in the immediate future. 
+* I want to remove random noise and trend in the timeseries and compare the score. 
+* Use TensorFlow and run more models.
+* Forcast concentration data for up to 28 days.
 
