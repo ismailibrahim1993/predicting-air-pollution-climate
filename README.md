@@ -53,14 +53,15 @@ and then filling this with ffill solved the problem. Then I converted date and t
 
 Removing NaN values in the climate dataframe was alot simpler as there were NaN values that I found by checking. I simply just used ffill to replace them.
 
-### Feature Engineering
+### Feature Engineering and Merging
 I calculated the average concentration just focussing on PM data because I found in the EDA stage that nitric oxide changes quite differently to PM. I converted the temperature columns from farenheit into degrees celcius using a simple function mapping this to all temperature columns. 
 
 I took days of the week out from the date column using .day_of_week() method and mapped this a new column called 'day_of_week'. Then I mapped the month,year and day from the date column and from the month I produced a season column. This was quite simple to implement, if month lies in [12,1,2] return Winter and [3,4,5] return Spring so on. I also extracted wind directions from the wind_Dirc column. I chose 10m above seawater because these air particulates are closer to us so affect us more ultimately than air particulates much further up in the air.
 
+Merging process was a straight forward process. I first sorted the dataframes in ascending order by date-time then I set this as the index. Then I compared all dataframes interms of row count and found that one of them, the climate dataframe, had to be resized down. Both dataframes were then combined using concat inner join on date-time.
 
 ### Exploratory Analysis
-Heatmap of the varibles tells us which ones affect the average PM and which ones to neglect.
+Heatmap was interesting to see. The wind variables have a negative correlation with concetration and most notably the temperatures have a positive correlation, around .34
 
 ![correlations](predicting-air-pollution-climate/images/corr.png)
 
