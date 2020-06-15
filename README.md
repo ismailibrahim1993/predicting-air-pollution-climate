@@ -4,7 +4,7 @@ My 5-week capstone project whilst doing General Assembly's Data Science Immersiv
 Air Pollution is a big contributor to the deaths which occur in the UK as per World Health Organisation,  air pollution caused the deaths of 7 million people*[1] in the year 2016, with Africa having the worst effects on it. 
 “In the UK it causes 40,000 premature deaths each year”[2].
 “29,000 of those are from the particulate matter PM2.5, particulates less than 2.5micrometers.”[2]
-While it is a well established fact that fumes from cars and industrial combustion processes are a leading contributor to concentration levels, but looking much more deeply at the concentration levels reveal a much more volatile state.
+While it is a well established fact that fumes from cars and industrial combustion processes are a leading contributor to concentration levels, looking much more deeply at the concentration levels reveals a much more volatile state.
 [1]: https://apps.who.int/gho/data/node.sdg.11-6-viz?lang=en
 [2]: https://wintoncentre.maths.cam.ac.uk/news/does-air-pollution-kill-40000-people-each-year-uk/
 
