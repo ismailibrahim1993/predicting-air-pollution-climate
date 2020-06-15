@@ -68,11 +68,6 @@ Heatmap was interesting to see. The wind variables have a negative correlation w
 
 <img src="./images/PM-daily-average.png" alt="drawing" width="1000"/>
 
-Both particulates behave in about the same way but PM10 has more recorded concentration on average for any given day. There is some noise, some trend toward the latter stages but no seasonality effect that can be observed from the daily averages.
-
-<img src="./images/pm10-yearly.png" alt="drawing" width="1000" height="200"/>
-
-<img src="./images/pm25-yearly.png" alt="drawing" width="1000" height="200"/>
 
 The decline in measured concentration is very clearly displayed here. As we can see there is a clear trend here.
 
