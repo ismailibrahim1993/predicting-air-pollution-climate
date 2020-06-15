@@ -1,10 +1,10 @@
 # predicting-air-pollution-climate
-My 5-week capstone project whilst doing General Assembly's Data Science Immersive bootcamp in London. I used climate data from years 2011 to 2020 to predict PM10 and PM2.5 air particulates concentration in London Kensington. I used various regression models and climate data from WeatherSource and particulate data from uk.gov's AURN archive.
+My 5-week capstone project whilst doing General Assembly's Data Science Immersive bootcamp in London. I used climate data from years 2011 to 2020 to predict PM10 and PM2.5 air particulates concentration in London Kensington. I used various regression models and climate data from WeatherSource and particulate data from uk.gov's AURN archive. The goal of this project was to determine to what effect the climate has an effect on the air pollution (PM10 & PM2.5).
 ## Motivation
 Air Pollution is a big contributor to the deaths which occur in the UK as per World Health Organisation,  air pollution caused the deaths of 7 million people*[1] in the year 2016, with Africa having the worst effects on it. 
 “In the UK it causes 40,000 premature deaths each year”[2].
 “29,000 of those are from the particulate matter PM2.5, particulates less than 2.5micrometers.”[2]
-While it is a well established fact that fumes from cars and industrial combustion processes are a leading contributor to concentration levels, but looking much more deeply at the concentration levels reveal a much more volatile state.
+While it is a well established fact that fumes from cars and industrial combustion processes are a leading contributor to concentration levels, looking much more deeply at the concentration levels reveals a much more volatile state.
 [1]: https://apps.who.int/gho/data/node.sdg.11-6-viz?lang=en
 [2]: https://wintoncentre.maths.cam.ac.uk/news/does-air-pollution-kill-40000-people-each-year-uk/
 
@@ -23,11 +23,11 @@ If the score I obtain for the model is > 0 aka the baseline score, then dependin
 * Cleaning
 * Feature Engineering+Merging
 * Exploratory Analysis
-* Model+Troubleshooting & Further feature engineering
+* Modelling
 * Limitations & Cause for improvement.
 
 ### Data Acquisition
-![AURN webpage](predicting-air-pollution-climate/images/AURN-web.png)
+![AURN webpage](./images/AURN-web.png)
 The data was acquired by visiting uk-air.defra.gov.uk and in the data archive section. There I was able to select what concentration type that I wanted and also the data range that the concentration was going to be for. The measuring point was at London Kensington. Extracting the data was a quick and easy process (also free!). The main drawback to this though that the csv was limited to around 90000x152, this broadly corresponds to about 10 years of **hourly averaged** concentration data. Anyways, I chose to pick PM10, nitric oxide and PM2.5 concetrations 10 years from 12/05/2020.
 
 
@@ -61,13 +61,35 @@ I took days of the week out from the date column using .day_of_week() method and
 Merging process was a straight forward process. I first sorted the dataframes in ascending order by date-time then I set this as the index. Then I compared all dataframes interms of row count and found that one of them, the climate dataframe, had to be resized down. Both dataframes were then combined using concat inner join on date-time.
 
 ### Exploratory Analysis
-Heatmap was interesting to see. The wind variables have a negative correlation with concetration and most notably the temperatures have a positive correlation, around .34
 
-![correlations](predicting-air-pollution-climate/images/corr.png)
+![correlations](./images/corr.png)
+
+Heatmap was interesting to see. The wind variables have a negative correlation with concetration and most notably the mean sea level pressure has a positive correlation, around .21.
+
+<img src="./images/PM-daily-average.png" alt="drawing" width="1000"/>
+
+
+The decline in measured concentration is very clearly displayed here. As we can see there is a clear trend here.
+
+<img src="./images/wind-dirc.png" alt="drawing" width="1000" height="500"/>
+<img src="./images/msl-pres.png" alt="drawing" width="1000" height="500"/>
+
+Easterly winds contributed to higher recorded PM, westerly winds least.
 
 
 ### Modelling
+All the models were trained on test data with date ranges ranging as small as a day from the last date to a year away. Gradient Boost achieved the best score of 0.35. This is for a test size of 23 weeks and a Gradient Boosting model with default parameters.
+
+![test scores](./images/test-scores.png)
+![best analysis](./images/actual_predic.png)
+
 
 ### Conclusion
+Score above zero means that there is insufficient evidence to reject the null hypothesis. This means that the climate has an effect on PM10 and PM2.5 concentrations. Trend and random noise in the concentration data affects the machine learning models' ability to predict the concentrations accurately though and how large the test data can be must be respected. Some models did overfit quite significantly like the Ada Boost and test sizes larger than a year also did contribute to overfitted models.
 
-### Limitations & Cause for improvement
+### Limitations & Cause for Improvement
+* Well I did not use gridsearch at all because even while producing the results above the computer took some hours to run, this is something I will do in the immediate future. 
+* I want to remove random noise and trend in the timeseries and compare the score. 
+* Use TensorFlow and run more models.
+* Forcast concentration data for up to 28 days.
+
