@@ -21,7 +21,7 @@ PM10 & PM2.5 are particulate matters of size 10 micrometers and 2.5 micrometers 
 If the score I obtain for the model is > 0 aka the baseline score, then depending on the magnitude we can induce to which degree the changing weather has an influence on the concentration levels.
 
 ## The process
-* Data Acquisition *Credit Weather-Source
+* Data Acquisition
 * Cleaning
 * Feature Engineering+Merging
 * Exploratory Analysis
@@ -30,7 +30,7 @@ If the score I obtain for the model is > 0 aka the baseline score, then dependin
 
 ### Data Acquisition
 ![AURN webpage](./images/AURN-web.png)
-The data was acquired by visiting uk-air.defra.gov.uk and in the data archive section. There I was able to select what concentration type that I wanted and also the data range that the concentration was going to be for. The measuring point was at London Kensington. Extracting the data was a quick and easy process (also free!). The main drawback to this though that the csv was limited to around 90000x152, this broadly corresponds to about 10 years of **hourly averaged** concentration data. Anyways, I chose to pick PM10, nitric oxide and PM2.5 concetrations 10 years from 12/05/2020.
+The data was acquired by visiting uk-air.defra.gov.uk and in the data archive section. There I was able to select what concentration type that I wanted and also the data range that the concentration was going to be for. The measuring point was at London Kensington. Extracting the data was a quick and easy process (also free!). The main drawback to this was that the csv was limited to around 90000x152, this broadly corresponds to about 10 years of **hourly averaged** concentration data. I chose to pick PM10, nitric oxide and PM2.5 concetrations from 01/01/2011 - 12/05/2020.
 
 
 The next step was acquiring climate data and this was done through WeatherSource's weather-data. Location was London Kengsinton and the date corresponded to 01/01/2011 up until 12/05/2020. The API is charged but luckily they were kind enough to provide this for free to me. 
@@ -47,18 +47,18 @@ Examined the air pollution data first and proceeded to change the columns. Then 
 |wind_speed|0|
 |wind_direction|0|
 
-No NaNs so I looked at column datatype and they were all objects. So I looked at like the first 50 entries and found a 'No data' entry. The dataframe had 6000 such entries that were scattered across the whole dataframe. I decided to fill these in by propagating the next available value above forward using ffill. First though I had to convert cells containing 'No data' into NaN because ffill fills NaN values only. For example applying this to the nitric_oxide column,
+No NaNs so I looked at column datatype and they were all objects. The first 50 entries had a 'No data' as an entry. The whole dataframe had 6000 such entries so I decided to fill these in by propagating the next available value above forward using ffill. First I had to convert cells containing 'No data' into NaN because ffill fills NaN values only. For example applying this to the nitric_oxide column,
 
 df.nitric_oxide.map(lambda x: x if x!='No data' else np.nan),
 
-and then filling this with ffill solved the problem. Then I converted date and time columns into DateTime and TimeDelta formats respectively, and an additional column 'date-time' was engineered by combining the aforementioned formatted column together. 
+and then filling this with ffill solved the problem. Then I converted date and time columns into DateTime and TimeDelta formats respectively and an additional column 'date-time' was engineered which is a combination of date and time columns.
 
-Removing NaN values in the climate dataframe was alot simpler as there were NaN values that I found by checking. I simply just used ffill to replace them.
+Removing NaN values in the climate dataframe was alot simpler as there were NaN values that I found by checking. I simply used ffill to replace them.
 
 ### Feature Engineering and Merging
 I calculated the average concentration just focussing on PM data because I found in the EDA stage that nitric oxide changes quite differently to PM. I converted the temperature columns from farenheit into degrees celcius using a simple function mapping this to all temperature columns. 
 
-I took days of the week out from the date column using .day_of_week() method and mapped this a new column called 'day_of_week'. Then I mapped the month,year and day from the date column and from the month I produced a season column. This was quite simple to implement, if month lies in [12,1,2] return Winter and [3,4,5] return Spring so on. I also extracted wind directions from the wind_Dirc column. I chose 10m above seawater because these air particulates are closer to us so affect us more ultimately than air particulates much further up in the air.
+I took days of the week out from the date column using .day_of_week() method and mapped this a new column called 'day_of_week'. Then I mapped the month,year and day from the date column and from the month I produced a season column. This was quite simple to implement. If month lies in [12,1,2] return 'Winter' and [3,4,5] return 'Spring' etc. I also extracted wind directions from the wind_Dirc column. I chose 10m above seawater because these air particulates are closer to us so affect us more ultimately than air particulates much further up in the air.
 
 Merging process was a straight forward process. I first sorted the dataframes in ascending order by date-time then I set this as the index. Then I compared all dataframes interms of row count and found that one of them, the climate dataframe, had to be resized down. Both dataframes were then combined using concat inner join on date-time.
 
@@ -87,11 +87,11 @@ All the models were trained on test data with date ranges ranging as small as a 
 
 
 ### Conclusion
-Score above zero means that there is insufficient evidence to reject the null hypothesis. This means that the climate has an effect on PM10 and PM2.5 concentrations. Trend and random noise in the concentration data affects the machine learning models' ability to predict the concentrations accurately though and how large the test data can be must be respected. Some models did overfit quite significantly like the Ada Boost and test sizes larger than a year also did contribute to overfitted models.
+Score above zero means that there is insufficient evidence to reject the null hypothesis. This means that the climate has an effect on PM10 and PM2.5 concentrations. 
+
+I suspect that trend and random noise affect the models' ability to predict concentration over a large period of time. This due to the sharp decline in R2 for different times. Some models did overfit quite significantly than others like Ada Boost and also test sizes larger than a year also did contribute to overfitted models.
 
 ### Limitations & Cause for Improvement
-* Well I did not use gridsearch at all because even while producing the results above the computer took some hours to run, this is something I will do in the immediate future. 
-* I want to remove random noise and trend in the timeseries and compare the score. 
+* I did not use gridsearch at all because even while producing the results above the computer took some hours to run, this is something I will do in the immediate future.  
 * Use TensorFlow and run more models.
 * Forcast concentration data for up to 28 days.
-
