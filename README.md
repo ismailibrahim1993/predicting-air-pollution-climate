@@ -1,6 +1,8 @@
 # predicting-air-pollution-climate
 My 5-week capstone project whilst doing General Assembly's Data Science Immersive bootcamp in London. I used climate data from years 2011 to 2020 to predict PM10 and PM2.5 air particulates concentration in London Kensington. I used various regression models and climate data from WeatherSource and particulate data from uk.gov's AURN archive. The goal of this project was to determine to what effect the climate has an effect on the air pollution (PM10 & PM2.5).
 ## Motivation
+![air poll london](./images/london-poll.jpg)
+
 Air Pollution is a big contributor to the deaths which occur in the UK as per World Health Organisation,  air pollution caused the deaths of 7 million people*[1] in the year 2016, with Africa having the worst effects on it. 
 “In the UK it causes 40,000 premature deaths each year”[2].
 “29,000 of those are from the particulate matter PM2.5, particulates less than 2.5micrometers.”[2]
