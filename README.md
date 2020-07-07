@@ -108,5 +108,5 @@ Score above zero means that there is insufficient evidence to reject the null hy
 I suspect that trend and random noise affect the models' ability to predict concentration over a large period of time. This due to the sharp decline in R2 for different times. Some models did overfit quite significantly than others like Ada Boost and also test sizes larger than a year also did contribute to overfitted models.
 ### Limitations and Cause for Improvement
 * I did not use gridsearch at all because even while producing the results above the computer took some hours to run, this is something I will do in the immediate future.  
-* Use TensorFlow and run more models.
+* Use AWS and do hyperparameter tuning on Gradient Boost model.
 * Forcast concentration data for up to 28 days.
